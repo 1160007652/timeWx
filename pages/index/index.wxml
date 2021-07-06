@@ -1,0 +1,31 @@
+<!--index.wxml-->
+<view class="container">
+
+  <view class="project-select">
+    <picker mode="selector" bindchange="bindPickerChange" value="{{currentProject.projectId}}" range-key="id" range="{{meetingDateList}}">
+      <view class="picker">
+        当前项目：
+      </view>
+      <view>
+        projectId = {{currentProject.projectId}}
+      </view>
+      <view>
+        id = {{currentProject.id}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="section">
+    <view class="label">日期:</view>
+    <picker mode="date" value="{{currentDate}}" start="{{currentProject.startTime}}" end="{{currentProject.endTime}}" bindchange="handleOnChangeCurrentDate">
+      <view >{{currentDate}}</view>
+    </picker>
+  </view>
+
+  <view class="section">
+    <view class="label">时间:</view>
+    <picker mode="time" value="{{time}}" bindchange="handleOnChangeCurrentTime">
+      <view>{{currentTime}}</view>
+    </picker>
+  </view>
+</view>
