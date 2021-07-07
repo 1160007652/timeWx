@@ -23,8 +23,8 @@
   </view>
 
   <view class="section">
-    <view class="label">时间:</view>
-    <picker mode="time" value="{{time}}" bindchange="handleOnChangeCurrentTime">
+    <view class="label">时间:{{startTimeLimit}}</view>
+    <picker mode="time" value="{{time}}" start="{{startTimeLimit}}" end="{{endTimeLimit}}" bindchange="handleOnChangeCurrentTime">
       <view>{{currentTime}}</view>
     </picker>
   </view>
