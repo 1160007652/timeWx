@@ -1,5 +1,10 @@
 // index.js
 // 获取应用实例
+const dayjs = require('dayjs')
+const isBetween = require('../../utils/isBetween')
+
+dayjs.extend(isBetween);
+
 const app = getApp()
 
 Page({
@@ -73,7 +78,6 @@ Page({
     const endDateTime = projectData.endTime.split(' ');
     const _endTimeLimit = endDateTime[0] === currentDate ? endDateTime[1] : '24:00:00';
 
-    console.log(_startTimeLimit, _endTimeLimit)
     this.setData({
       startTimeLimit: _startTimeLimit,
       endTimeLimit: _endTimeLimit,
@@ -176,8 +180,48 @@ Page({
   },
   onReady() {
     // 初始化页面，默认选中数据
-    const projectData = this.data.meetingDateList[0];
-    this.initData(projectData);
+    
+    // this.initData(projectData);
+
+    this.formatMeetingDateList();
+
+
+  },
+
+  formatMeetingDateList(){
+
+
+    const currentProject = {projectId: '', rangeDate:[],rangeTime:{date: []}};
+
+    this.data.meetingDateList.forEach((item)=>{
+      const startTime = dayjs(item.startTime);
+      const endTime = dayjs(item.endTime);
+      let currentDate = startTime;
+      const rangeDate = [];
+
+
+      if (currentDate.isSame(startTime)){
+        currentProject.rangeTime[currentDate.format('YYYY-MM-DD')]=startTime.format('HH:mm:ss');
+      }
+
+      while(currentDate.isBetween(startTime.format('YYYY-MM-DD'), endTime.format('YYYY-MM-DD'), 'day', '[]')) {
+        
+        rangeDate.push(currentDate.format('YYYY-MM-DD'))
+        currentDate = currentDate.add(1, "day");
+
+      }
+
+        currentProject.projectId = item.projectId;
+        currentProject.rangeDate = currentProject.rangeDate.concat(rangeDate);
+
+        
+
+
+        // currentProject.rangeTime[rangeDate]= ''
+    })
+
+    console.log(currentProject)
+
   },
   onLoad() {
 
